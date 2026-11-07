@@ -347,11 +347,11 @@ form .btn{width:100%}
 .done .sub{margin:0;color:var(--muted);font-size:15px;text-align:center;max-width:30ch}
 
 /* ---------- lite mode: phones and weak devices ---------- */
-html.lite .blob,html.lite .sky .lattice{display:none}
+html.lite .blob{display:none}
+html.lite .sky .lattice{-webkit-mask-image:none;mask-image:none;opacity:.035}
 html.lite .sky{background:radial-gradient(130% 55% at 0% 0%,var(--blob1),transparent 62%),radial-gradient(110% 45% at 100% 70%,rgba(var(--gold-rgb),.10),transparent 60%)}
-html.lite .portrait .ring,html.lite .medal .ring{animation:none}
-html.lite .btn-line::after,html.lite .live i{animation:none;display:none}
-html.lite .live i{display:block}
+/* keep every effect, but only on GPU-composited layers */
+html.lite .portrait .ring,html.lite .medal .ring{transform:translateZ(0);backface-visibility:hidden}
 html.lite .card,html.lite .tile,html.lite .wcard,html.lite[data-theme] .card,html.lite[data-theme] .tile,html.lite[data-theme] .wcard{box-shadow:0 10px 26px rgba(0,0,0,.2)}
 html.lite[data-theme="light"] .card,html.lite[data-theme="light"] .tile,html.lite[data-theme="light"] .wcard{box-shadow:0 8px 22px rgba(120,90,40,.12)}
 html.lite .btn{box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 8px 20px rgba(var(--gold-rgb),.28)}
@@ -967,11 +967,11 @@ if ('IntersectionObserver' in window) {
 const cv = $('#dust'), cx = cv.getContext('2d');
 const LITE = root.classList.contains('lite'), MOBILE = LITE;
 let W, H, parts = [], extra = [], looping = false;
-let ambient = !LITE && !reduce;
+let ambient = !reduce;
 function size(){ const dpr = LITE ? 1 : Math.min(devicePixelRatio || 1, 1.5); W = innerWidth; H = innerHeight; cv.width = W*dpr; cv.height = H*dpr; cx.setTransform(dpr,0,0,dpr,0,0); }
 size();
 let rz; addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => { if (Math.abs(innerWidth - W) > 2 || Math.abs(innerHeight - H) > 120) size(); }, 200); });
-if (ambient) for (let i=0;i<26;i++) parts.push({ x:Math.random()*W, y:Math.random()*H, r:Math.random()*1.7+.4, vy:Math.random()*.32+.1, vx:(Math.random()-.5)*.2, a:Math.random()*.6+.2, t:Math.random()*6 });
+if (ambient) for (let i=0;i<(LITE ? 16 : 26);i++) parts.push({ x:Math.random()*W, y:Math.random()*H, r:Math.random()*1.7+.4, vy:Math.random()*.32+.1, vx:(Math.random()-.5)*.2, a:Math.random()*.6+.2, t:Math.random()*6 });
 function kick(){ if (!looping && !document.hidden){ looping = true; requestAnimationFrame(frame); } }
 function burstAt(ox, oy, n){
   if (reduce) return;
@@ -993,7 +993,7 @@ function frame(now){
     if (p.y > H+5){ p.y = -5; p.x = Math.random()*W; }
     const tw = .55 + .45*Math.sin(p.t*3);
     cx.globalAlpha = p.a*tw; cx.beginPath(); cx.arc(p.x,p.y,p.r,0,6.283); cx.fill();
-    if (p.r > 1.6){ cx.globalAlpha = p.a*tw*.25; cx.beginPath(); cx.arc(p.x,p.y,p.r*3.5,0,6.283); cx.fill(); }
+    if (!LITE && p.r > 1.6){ cx.globalAlpha = p.a*tw*.25; cx.beginPath(); cx.arc(p.x,p.y,p.r*3.5,0,6.283); cx.fill(); }
   }
   for (let i=extra.length-1;i>=0;i--){
     const p = extra[i]; p.x += p.vx; p.y += p.vy; p.vy += .12; p.vx *= .98; p.life -= .013;
