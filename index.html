@@ -346,6 +346,19 @@ form .btn{width:100%}
 .done .row{margin-top:6px}
 .done .sub{margin:0;color:var(--muted);font-size:15px;text-align:center;max-width:30ch}
 
+/* ---------- lite mode: phones and weak devices ---------- */
+html.lite .blob,html.lite .sky .lattice{display:none}
+html.lite .sky{background:radial-gradient(130% 55% at 0% 0%,var(--blob1),transparent 62%),radial-gradient(110% 45% at 100% 70%,rgba(var(--gold-rgb),.10),transparent 60%)}
+html.lite .portrait .ring,html.lite .medal .ring{animation:none}
+html.lite .btn-line::after,html.lite .live i{animation:none;display:none}
+html.lite .live i{display:block}
+html.lite .card,html.lite .tile,html.lite .wcard,html.lite[data-theme] .card,html.lite[data-theme] .tile,html.lite[data-theme] .wcard{box-shadow:0 10px 26px rgba(0,0,0,.2)}
+html.lite[data-theme="light"] .card,html.lite[data-theme="light"] .tile,html.lite[data-theme="light"] .wcard{box-shadow:0 8px 22px rgba(120,90,40,.12)}
+html.lite .btn{box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 8px 20px rgba(var(--gold-rgb),.28)}
+html.lite .rv{transition-duration:.6s}
+html.lite .rv.pre{transform:translateY(18px)}
+html.lite .who.go .l{animation-duration:.5s}
+
 @media (min-width:900px){.sec{padding-block:72px}}
 @media (max-width:700px){.blob{animation:none}}
 @media (prefers-reduced-motion:reduce){
@@ -391,6 +404,8 @@ form .btn{width:100%}
   var saved = null; try { saved = localStorage.getItem('theme'); } catch(e){}
   var mq = window.matchMedia ? matchMedia('(prefers-color-scheme: light)') : null;
   var t = saved || (mq && mq.matches ? 'light' : 'dark');
+  var nav = navigator, small = window.matchMedia && matchMedia('(max-width: 820px)').matches;
+  if (small || (nav.hardwareConcurrency && nav.hardwareConcurrency <= 4) || (nav.deviceMemory && nav.deviceMemory <= 4)) document.documentElement.classList.add('lite');
   document.documentElement.setAttribute('data-theme', t);
 })();
 </script>
@@ -948,43 +963,48 @@ if ('IntersectionObserver' in window) {
   secs.forEach(s => so.observe(s));
 }
 
-/* Gold dust */
+/* Gold dust: ambient sparkles on capable devices only; bursts everywhere. The loop sleeps when idle. */
 const cv = $('#dust'), cx = cv.getContext('2d');
-let W, H, parts = [], running = !reduce, extra = [];
-function size(){ const dpr = Math.min(devicePixelRatio || 1, 1.5); W = innerWidth; H = innerHeight; cv.width = W*dpr; cv.height = H*dpr; cx.setTransform(dpr,0,0,dpr,0,0); }
+const LITE = root.classList.contains('lite'), MOBILE = LITE;
+let W, H, parts = [], extra = [], looping = false;
+let ambient = !LITE && !reduce;
+function size(){ const dpr = LITE ? 1 : Math.min(devicePixelRatio || 1, 1.5); W = innerWidth; H = innerHeight; cv.width = W*dpr; cv.height = H*dpr; cx.setTransform(dpr,0,0,dpr,0,0); }
 size();
 let rz; addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => { if (Math.abs(innerWidth - W) > 2 || Math.abs(innerHeight - H) > 120) size(); }, 200); });
-const MOBILE = innerWidth < 600, N = MOBILE ? 14 : 30;
-for (let i=0;i<N;i++) parts.push({ x:Math.random()*W, y:Math.random()*H, r:Math.random()*1.7+.4, vy:Math.random()*.32+.1, vx:(Math.random()-.5)*.2, a:Math.random()*.6+.2, t:Math.random()*6 });
+if (ambient) for (let i=0;i<26;i++) parts.push({ x:Math.random()*W, y:Math.random()*H, r:Math.random()*1.7+.4, vy:Math.random()*.32+.1, vx:(Math.random()-.5)*.2, a:Math.random()*.6+.2, t:Math.random()*6 });
+function kick(){ if (!looping && !document.hidden){ looping = true; requestAnimationFrame(frame); } }
 function burstAt(ox, oy, n){
   if (reduce) return;
+  n = LITE ? Math.min(n, 60) : n;
   for (let i=0;i<n;i++){ const ang = Math.random()*Math.PI*2, sp = Math.random()*5.5+2; extra.push({ x:ox, y:oy, vx:Math.cos(ang)*sp, vy:Math.sin(ang)*sp-2.5, r:Math.random()*2.4+.8, life:1 }); }
+  kick();
 }
 let last = 0;
 function frame(now){
-  if (running) requestAnimationFrame(frame);
+  if (document.hidden || (!ambient && !extra.length)){ cx.clearRect(0,0,W,H); looping = false; return; }
+  requestAnimationFrame(frame);
   if (now - last < 33 && !extra.length) return;
   last = now;
+  const LIGHT = root.getAttribute('data-theme') === 'light';
   cx.clearRect(0,0,W,H);
+  cx.fillStyle = LIGHT ? '#B48A44' : '#F1DCA2';
   for (const p of parts){
     p.y += p.vy; p.x += p.vx + Math.sin(p.t += .01)*.15;
     if (p.y > H+5){ p.y = -5; p.x = Math.random()*W; }
     const tw = .55 + .45*Math.sin(p.t*3);
-    const LIGHT = root.getAttribute('data-theme') === 'light';
-    cx.globalAlpha = p.a*tw; cx.fillStyle = LIGHT ? '#B48A44' : '#F1DCA2';
-    cx.beginPath(); cx.arc(p.x,p.y,p.r,0,6.283); cx.fill();
-    if (!MOBILE && p.r > 1.6){ cx.globalAlpha = p.a*tw*.25; cx.beginPath(); cx.arc(p.x,p.y,p.r*3.5,0,6.283); cx.fill(); }
+    cx.globalAlpha = p.a*tw; cx.beginPath(); cx.arc(p.x,p.y,p.r,0,6.283); cx.fill();
+    if (p.r > 1.6){ cx.globalAlpha = p.a*tw*.25; cx.beginPath(); cx.arc(p.x,p.y,p.r*3.5,0,6.283); cx.fill(); }
   }
   for (let i=extra.length-1;i>=0;i--){
     const p = extra[i]; p.x += p.vx; p.y += p.vy; p.vy += .12; p.vx *= .98; p.life -= .013;
     if (p.life <= 0){ extra.splice(i,1); continue; }
-    cx.globalAlpha = p.life; cx.fillStyle = root.getAttribute('data-theme') === 'light' ? (i%3 ? '#C9A050' : '#8A6326') : (i%3 ? '#F6E3B0' : '#D4AF6A');
+    cx.globalAlpha = p.life; cx.fillStyle = LIGHT ? (i%3 ? '#C9A050' : '#8A6326') : (i%3 ? '#F6E3B0' : '#D4AF6A');
     cx.beginPath(); cx.arc(p.x,p.y,p.r,0,6.283); cx.fill();
   }
   cx.globalAlpha = 1;
 }
-if (running) requestAnimationFrame(frame);
-document.addEventListener('visibilitychange', () => { const was = running; running = !document.hidden && !reduce; if (running && !was) requestAnimationFrame(frame); });
+kick();
+document.addEventListener('visibilitychange', () => { if (!document.hidden) kick(); });
 </script>
 
 </body>
