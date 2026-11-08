@@ -849,7 +849,8 @@ function countUp(){
   const el = $('.seventy'); if (reduce || !el) return;
   const t0 = performance.now(), D = 1800;
   el.textContent = '0';
-  (function step(t){ const k = Math.min(1, (t - t0) / D), e = 1 - Math.pow(1 - k, 3); el.textContent = String(Math.round(70 * e)); if (k < 1) requestAnimationFrame(step); })(t0);
+  (function step(t){ const k = Math.max(0, Math.min(1, (t - t0) / D)), e = 1 - Math.pow(1 - k, 3); el.textContent = String(Math.round(70 * e)); if (k < 1) requestAnimationFrame(step); })(t0);
+  setTimeout(() => { el.textContent = '70'; }, D + 200);
 }
 (function(){
   const who = $('.who'); if (!who || reduce) return;
@@ -863,7 +864,8 @@ let liveBase = 0;
 function setLive(n){
   if (!n) return; const box = $('#live'), el = $('#liveN'); box.hidden = false;
   const from = +el.textContent || 0, t0 = performance.now();
-  (function step(t){ const k = Math.min(1, (t - t0) / 1200); el.textContent = String(Math.round(from + (n - from) * (1 - Math.pow(1 - k, 3)))); if (k < 1) requestAnimationFrame(step); })(t0);
+  (function step(t){ const k = Math.max(0, Math.min(1, (t - t0) / 1200)); el.textContent = String(Math.round(from + (n - from) * (1 - Math.pow(1 - k, 3)))); if (k < 1) requestAnimationFrame(step); })(t0);
+  setTimeout(() => { el.textContent = String(n); }, 1400);
 }
 function bumpLive(d){ if (liveBase && d.count) setLive(liveBase + d.count); }
 
