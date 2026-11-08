@@ -341,8 +341,9 @@ form .btn{width:100%}
 @keyframes letter{from{opacity:0;transform:translateY(.5em) rotate(6deg)}to{opacity:1;transform:none}}
 .live{display:inline-flex;align-items:center;gap:10px;margin:0;padding:8px 16px;border-radius:999px;background:rgba(var(--gold-rgb),.08);border:1px solid var(--line);font-size:13px;font-weight:500;color:var(--cream)}
 .live b{font-family:var(--display);font-size:22px;line-height:1;color:var(--gold-hi);font-variant-numeric:tabular-nums}
-.live i{width:8px;height:8px;border-radius:50%;background:#5BE38D;box-shadow:0 0 0 0 rgba(91,227,141,.6);animation:ping 2s ease-out infinite}
-@keyframes ping{0%{box-shadow:0 0 0 0 rgba(91,227,141,.55)}100%{box-shadow:0 0 0 10px rgba(91,227,141,0)}}
+.live i{position:relative;width:8px;height:8px;border-radius:50%;background:#5BE38D}
+.live i::after{content:"";position:absolute;inset:0;border-radius:50%;background:#5BE38D;animation:ping 2s ease-out infinite;will-change:transform,opacity}
+@keyframes ping{0%{transform:scale(1);opacity:.6}100%{transform:scale(3.2);opacity:0}}
 .done .row{margin-top:6px}
 .done .sub{margin:0;color:var(--muted);font-size:15px;text-align:center;max-width:30ch}
 
@@ -974,7 +975,9 @@ function size(){ const dpr = LITE ? 1 : Math.min(devicePixelRatio || 1, 1.5); W 
 size();
 let rz; addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => { if (Math.abs(innerWidth - W) > 2 || Math.abs(innerHeight - H) > 120) size(); }, 200); });
 if (ambient) for (let i=0;i<(LITE ? 16 : 26);i++) parts.push({ x:Math.random()*W, y:Math.random()*H, r:Math.random()*1.7+.4, vy:Math.random()*.32+.1, vx:(Math.random()-.5)*.2, a:Math.random()*.6+.2, t:Math.random()*6 });
-function kick(){ if (!looping && !document.hidden){ looping = true; requestAnimationFrame(frame); } }
+function kick(){ if (!looping && !document.hidden){ looping = true; cv.style.visibility = 'visible'; requestAnimationFrame(frame); } }
+let heroOn = true;
+if ('IntersectionObserver' in window) new IntersectionObserver(es => { heroOn = es[0].isIntersecting; if (heroOn) kick(); }).observe(document.querySelector('.hero'));
 function burstAt(ox, oy, n){
   if (reduce) return;
   n = LITE ? Math.min(n, 60) : n;
@@ -983,14 +986,14 @@ function burstAt(ox, oy, n){
 }
 let last = 0;
 function frame(now){
-  if (document.hidden || (!ambient && !extra.length)){ cx.clearRect(0,0,W,H); looping = false; return; }
+  if (document.hidden || (!(ambient && heroOn) && !extra.length)){ cx.clearRect(0,0,W,H); cv.style.visibility = 'hidden'; looping = false; return; }
   requestAnimationFrame(frame);
   if (now - last < 33 && !extra.length) return;
   last = now;
   const LIGHT = root.getAttribute('data-theme') === 'light';
   cx.clearRect(0,0,W,H);
   cx.fillStyle = LIGHT ? '#B48A44' : '#F1DCA2';
-  for (const p of parts){
+  if (heroOn) for (const p of parts){
     p.y += p.vy; p.x += p.vx + Math.sin(p.t += .01)*.15;
     if (p.y > H+5){ p.y = -5; p.x = Math.random()*W; }
     const tw = .55 + .45*Math.sin(p.t*3);
