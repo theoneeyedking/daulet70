@@ -85,7 +85,7 @@ html.theming *,html.theming *::before,html.theming *::after{transition:backgroun
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;overflow-x:clip}
-body{margin:0;background:var(--bg);color:var(--cream);font-family:var(--body);font-size:16px;line-height:1.65;overflow-x:hidden}
+body{margin:0;background:var(--bg);color:var(--cream);font-family:var(--body);font-size:16px;line-height:1.65}
 body.locked{overflow:hidden}
 img{max-width:100%;display:block}
 a{color:inherit}
@@ -454,6 +454,9 @@ input[type=text],input[type=tel],textarea{font-size:19px;padding:17px 18px}
   *,*::before,*::after{animation:none!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
   .rv.pre{opacity:1;transform:none;filter:none}
 }
+
+/* body must never become its own scroll box (it broke touch scrolling on phones) */
+@supports (overflow:clip){body{overflow-x:clip}}
 
 /* ================= VARIANT 2: in the style of the reference (cream, gold, italic script headings, ornament) ================= */
 :root[data-theme="light"]{

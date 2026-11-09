@@ -32,7 +32,7 @@
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;overflow-x:clip}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--serif);font-size:19px;line-height:1.5;font-variant-numeric:lining-nums;overflow-x:hidden;padding-bottom:96px;transition:background-color .4s ease}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--serif);font-size:19px;line-height:1.5;font-variant-numeric:lining-nums;padding-bottom:96px;transition:background-color .4s ease}
 img{max-width:100%;display:block}
 a{color:inherit}
 :focus-visible{outline:2px solid var(--ink);outline-offset:4px;border-radius:8px}
@@ -166,6 +166,9 @@ input[type=text]:focus{outline:none;border-color:var(--ink)}
 .rv{transition:opacity .9s ease,transform .9s cubic-bezier(.2,.8,.2,1)}
 .rv.pre{opacity:0;transform:translateY(22px)}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.rv.pre{opacity:1;transform:none}}
+
+/* body must never become its own scroll box (it broke touch scrolling on phones) */
+@supports (overflow:clip){body{overflow-x:clip}}
 </style>
 
 
