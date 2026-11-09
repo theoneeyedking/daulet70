@@ -17,7 +17,7 @@
 <style>
 /* Layout: one calm 460px column on warm ivory (or midnight navy), gold-brown type, italic-script section titles,
    gold Kazakh-ornament medallion, dividers between blocks, a fixed two-button dock at the bottom. */
-@font-face{font-family:'GV Kaz';src:url(gv-kz.woff2) format('woff2');font-display:swap}
+@font-face{font-family:'GV Kaz';src:url(gv-kz.woff2?v=2) format('woff2');font-display:swap}
 :root{
   --bg:#FAF7F0; --bg2:#F3ECDD; --ink:#9C7E49; --ink-2:#7A5F33; --soft:#B19A6C; --line:rgba(156,126,73,.38);
   --card:#FFFFFF; --pill1:#6E5128; --pill2:#47321A; --pill-ink:#FFFFFF; --band1:#6E5128; --band2:#3F2C14; --band-ink:#F6E7C1;
@@ -101,9 +101,12 @@ main{position:relative;max-width:460px;margin:0 auto;padding:0 20px}
 .band::before,.band::after{content:"";position:absolute;top:50%;width:120px;height:120px;transform:translateY(-50%);opacity:.18;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 40'%3E%3Cg fill='none' stroke='%23F6E7C1' stroke-width='2.4' stroke-linecap='round'%3E%3Cpath d='M60 36C60 22 51 15 42 15c-8 0-12 7-8 12 3 4 9 2 8-3-1-3-5-3-5 0'/%3E%3Cpath d='M60 36C60 22 69 15 78 15c8 0 12 7 8 12-3 4-9 2-8-3 1-3 5-3 5 0'/%3E%3Cpath d='M60 36C58 14 40 4 24 7 12 9 6 20 12 27'/%3E%3Cpath d='M60 36C62 14 80 4 96 7c12 2 18 13 12 20'/%3E%3C/g%3E%3C/svg%3E") center/contain no-repeat}
 .band::before{left:-30px;transform:translateY(-50%) rotate(90deg)}.band::after{right:-30px;transform:translateY(-50%) rotate(-90deg)}
 .band h3{margin:0 0 14px;font-family:var(--script);font-weight:400;font-size:40px;line-height:1.1;color:var(--band-ink)}
-.cd{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;max-width:380px;margin:0 auto}
+.cd{display:flex;justify-content:center;margin:0 auto}
+.cd .dd{min-width:170px;padding:14px 34px 12px!important}
+.cd .dd b{font-size:64px!important}
+.cd .dd small{font-size:13px!important;letter-spacing:.18em!important}
 .cd div{display:flex;flex-direction:column;align-items:center;padding:10px 0 8px;border-radius:14px;border:1px solid rgba(246,231,193,.35);background:rgba(255,255,255,.06)}
-.cd b{font-weight:700;font-size:38px;line-height:1;font-variant-numeric:tabular-nums}
+.cd b{font-weight:700;font-size:38px;line-height:1;font-variant-numeric:lining-nums tabular-nums}
 .cd small{font-family:var(--ui);font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;opacity:.85;margin-top:4px}
 
 /* ---------- form ---------- */
@@ -213,8 +216,14 @@ input[type=text]:focus{outline:none;border-color:var(--ink)}
 
   <!-- Invitation -->
   <section class="blk" id="greet">
-    <h2 class="script rv" id="greetT">Құрметті қонақтар!</h2>
+    <h2 class="script rv" id="greetT">Құрметті ағайын!</h2>
     <p class="txt rv">Сіз(дер)ді асқар тау әкеміз Дәулеттің 70 жас мерей тойына арналған салтанатты ақ дастарханымыздың қадірлі қонағы болуға шақырамыз!</p>
+  </section>
+
+  <!-- Hosts -->
+  <section class="blk">
+    <h2 class="script rv">Той иелері:</h2>
+    <p class="txt rv">Балалары</p>
     <img class="divider rv" src="divider.webp" alt="" aria-hidden="true" width="960" height="165" loading="lazy">
   </section>
 
@@ -243,18 +252,8 @@ input[type=text]:focus{outline:none;border-color:var(--ink)}
   <section class="band rv">
     <h3>Тойға дейін</h3>
     <div class="cd" id="cd" aria-live="polite">
-      <div><b id="cd-d">00</b><small>күн</small></div>
-      <div><b id="cd-h">00</b><small>сағат</small></div>
-      <div><b id="cd-m">00</b><small>минут</small></div>
-      <div><b id="cd-s">00</b><small>секунд</small></div>
+      <div class="dd"><b id="cd-d">00</b><small>күн қалды</small></div>
     </div>
-  </section>
-
-  <!-- Hosts -->
-  <section class="blk">
-    <h2 class="script rv">Той иелері:</h2>
-    <p class="txt rv">Балалары</p>
-    <img class="divider rv" src="divider.webp" alt="" aria-hidden="true" width="960" height="165" loading="lazy">
   </section>
 
   <!-- RSVP -->
@@ -321,10 +320,10 @@ function tick(){
   let d = TARGET - Date.now();
   if (d <= 0){ $('#cd').outerHTML = '<p class="txt" style="color:inherit">Той басталды!</p>'; return false; }
   const D = Math.floor(d/864e5); d -= D*864e5; const H = Math.floor(d/36e5); d -= H*36e5; const M = Math.floor(d/6e4); d -= M*6e4; const S = Math.floor(d/1e3);
-  [['d',D],['h',H],['m',M],['s',S]].forEach(([k,v]) => { $('#cd-'+k).textContent = String(v).padStart(2,'0'); });
+  $('#cd-d').textContent = String(D);
   return true;
 }
-if (tick()) { const iv = setInterval(() => { if (!tick()) clearInterval(iv); }, 1000); }
+if (tick()) { const iv = setInterval(() => { if (!tick()) clearInterval(iv); }, 60000); }
 
 /* Music */
 const audio = $('#audio'), dm = $('#dockMusic');
