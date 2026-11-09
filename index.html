@@ -41,21 +41,24 @@
   --row:rgba(255,255,255,.04); --field:rgba(4,6,16,.5); --field-f:rgba(4,6,16,.68); --err:#F4BFAF;
   --gate1:#1C2850; --gate2:#0D1430; --gate3:#05070F; --core1:#2A3A70; --core2:#0E1530;
   --foil-text:var(--foil);
+  --accent:var(--cream); --accent-2:var(--gold-hi); --accent-line:rgba(var(--gold-rgb),.5); --heart:var(--gold-hi);
   color-scheme:dark;
 }
 /* Light theme: cream of the shapan, deep antique gold */
 :root[data-theme="light"]{
-  --bg:#F6EFE1; --cream:#33281A; --muted:#7E6E55;
-  --gold:#A9823E; --gold-hi:#8A6326; --gold-lo:#C8AA72;
+  --bg:#F3EADA; --cream:#2A2014; --muted:#6F5F47;
+  --gold:#9A7231; --gold-hi:#7E5A20; --gold-lo:#C2A266;
   --hi-rgb:190,150,80; --gold-rgb:169,130,62; --text-rgb:51,40,26;
   --line:rgba(169,130,62,.35);
   --blob1:rgba(226,200,150,.7); --blob3:rgba(236,222,192,.9);
-  --surf1:rgba(255,253,247,.92); --surf2:rgba(246,236,214,.88);
+  --surf1:#FFFFFF; --surf2:#FFFBF2;
   --btn2a:#FFFCF5; --btn2b:#F4E9D2; --gap:#F6EFE1;
   --back:rgba(70,52,24,.4); --sheet1:#FFFCF5; --sheet2:#F2E6CD;
   --row:rgba(255,255,255,.6); --field:rgba(255,255,255,.75); --field-f:#fff; --err:#B0432C;
   --gate1:#FFFBF2; --gate2:#F3E8D2; --gate3:#E4D3B2; --core1:#FFFDF8; --core2:#EFDFBE;
-  --foil-text:linear-gradient(110deg,#6E4C1A 0%,#A97D35 22%,#D9B46A 36%,#9C7230 55%,#C79B4F 76%,#6E4C1A 100%);
+  --foil-text:linear-gradient(110deg,#6A4816 0%,#A27631 22%,#CFA65A 36%,#93692A 55%,#BE9046 76%,#6A4816 100%);
+  --foil:linear-gradient(110deg,#7C5A22 0%,#B98C42 18%,#EED498 32%,#C9A055 46%,#8E6A2E 62%,#D8B266 80%,#7C5A22 100%);
+  --accent:#1D4433; --accent-2:#1D4433; --accent-line:rgba(29,68,51,.55); --heart:#1D4433;
   color-scheme:light;
 }
 :root[data-theme="light"] .card,:root[data-theme="light"] .tile,:root[data-theme="light"] .wcard{box-shadow:0 18px 50px rgba(120,90,40,.14),inset 0 1px 0 #fff}
@@ -360,6 +363,71 @@ html.lite .rv{transition-duration:.6s}
 html.lite .rv.pre{transform:translateY(18px)}
 html.lite .who.go .l{animation-duration:.5s}
 
+
+/* ---------- calendar ---------- */
+.cal{width:100%;max-width:340px;margin-top:6px}
+.cal-m{font-family:var(--display);font-size:26px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-2);margin:0 0 14px}
+.cal-h{display:grid;grid-template-columns:repeat(7,1fr);border:1.5px solid var(--accent-line);border-radius:999px;padding:8px 2px;font-family:var(--display);font-size:16px;font-weight:600;color:var(--accent-2)}
+.cal-g{display:grid;grid-template-columns:repeat(7,1fr);row-gap:4px;margin-top:10px;font-family:var(--display);font-size:20px;color:var(--cream)}
+.cal-g span{position:relative;height:36px;display:grid;place-items:center;font-variant-numeric:lining-nums}
+.cal-g .on b{position:relative;font-weight:700;color:var(--accent-2)}
+.cal-g .on svg{position:absolute;left:50%;top:50%;width:64px;height:64px;transform:translate(-50%,-50%);overflow:visible;pointer-events:none}
+.cal-g .on path{fill:none;stroke:var(--heart);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:0}
+.rv.pre .cal-g .on path{stroke-dashoffset:1}
+.rv:not(.pre) .cal-g .on path{animation:drawH 1.8s .5s cubic-bezier(.6,0,.3,1) both}
+@keyframes drawH{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+
+/* ---------- flowers (pre-rendered, static: no runtime cost) ---------- */
+main{overflow-x:clip}
+.hero,.sec .col{position:relative}
+.fl{position:absolute;z-index:3;pointer-events:none;user-select:none;height:auto}
+.fl-h1{width:min(230px,54vw);top:64px;right:max(-80px,calc(50% - 360px));transform:rotate(-12deg)}
+.fl-h2{width:min(170px,40vw);left:max(-46px,calc(50% - 330px));top:min(560px,128vw);transform:rotate(-18deg) scaleX(-1)}
+.fl-w1{width:min(150px,36vw);top:-58px;right:-34px;transform:rotate(14deg)}
+.fl-w2{width:min(130px,32vw);bottom:-96px;left:-34px;transform:rotate(200deg)}
+.fl-c1{width:min(120px,30vw);top:-96px;left:-26px;transform:rotate(-20deg)}
+.fl-c2{width:min(130px,32vw);bottom:-110px;right:-30px;transform:rotate(10deg) scaleX(-1)}
+:root:not([data-theme="light"]) .fl{filter:brightness(.92)}
+
+/* ---------- light theme: deeper colour & contrast ---------- */
+:root[data-theme="light"] h2,:root[data-theme="light"] .date,:root[data-theme="light"] .who{color:var(--accent)}
+:root[data-theme="light"] .badge{background:linear-gradient(150deg,#2A5A44,#163628);color:#EED498;box-shadow:0 0 0 6px rgba(29,68,51,.1),0 10px 26px rgba(29,68,51,.3),inset 0 1px 0 rgba(255,255,255,.18)}
+:root[data-theme="light"] .tile{background:linear-gradient(160deg,#2A5A44,#143224) padding-box,linear-gradient(160deg,#EED498,rgba(154,114,49,.5) 50%,#D8B266) border-box}
+:root[data-theme="light"] .tile b{color:#F3DDA2}
+:root[data-theme="light"] .tile small{color:rgba(243,236,221,.78)}
+:root[data-theme="light"] .tile .prog rect:first-child{stroke:rgba(238,212,152,.18)}
+:root[data-theme="light"] .tile .prog rect:last-child{stroke:#EED498!important}
+:root[data-theme="light"] .card{border-width:1.5px}
+:root[data-theme="light"] .weekday{color:var(--accent);border-color:var(--accent-line)}
+:root[data-theme="light"] .eyebrow,:root[data-theme="light"] .label,:root[data-theme="light"] .hall{color:#8A6326}
+:root[data-theme="light"] .live{background:rgba(29,68,51,.06);border-color:rgba(29,68,51,.25)}
+
+
+/* ---------- "Әуенді қосу" text button ---------- */
+.tune{display:inline-flex;align-items:center;gap:8px;margin-top:2px;padding:10px 20px;border-radius:999px;cursor:pointer;background:transparent;border:1px solid var(--line);
+  font-family:var(--display);font-size:20px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--cream);transition:background .3s,border-color .3s,transform .2s}
+.tune .clef{font-size:24px;line-height:1;color:var(--gold-hi)}
+.tune:hover{background:rgba(var(--gold-rgb),.1);border-color:var(--gold)}
+.tune:active{transform:scale(.97)}
+.tune.playing .clef{animation:sway 1.6s ease-in-out infinite}
+@keyframes sway{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(8deg)}}
+
+/* ---------- light theme: emerald first screen with torn-paper edge ---------- */
+:root[data-theme="light"] .hero{
+  --cream:#F3ECDD; --accent:#F3ECDD; --muted:#B9C7BE; --gold:#D4AF6A; --gold-hi:#F2DCA0; --gold-lo:#9A7A44; --gold-rgb:212,175,106;
+  --gap:#183A2B; --line:rgba(212,175,106,.4);
+  --foil-text:linear-gradient(110deg,#A9823F 0%,#E2C27C 20%,#FFF4D2 34%,#E6C681 46%,#B48C47 62%,#F2DCA0 80%,#A9823F 100%);
+  background:radial-gradient(120% 70% at 50% 0%,#245A43 0%,#1B4231 55%,#163628 100%);
+  padding-bottom:110px;margin-bottom:-40px;
+}
+:root[data-theme="light"] .hero::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:70px;pointer-events:none;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 70' preserveAspectRatio='none'%3E%3Cpath d='M0 70 L0.0 39.5 L5.0 43.9 L9.6 41.7 L14.8 39.4 L19.6 41.4 L25.6 36.4 L29.5 35.3 L35.6 37.9 L38.3 39.5 L45.2 37.5 L50.4 35.3 L53.0 38.4 L55.8 37.2 L59.4 37.6 L64.0 42.1 L70.2 45.1 L75.6 46.5 L81.1 46.7 L84.9 49.9 L91.8 46.9 L97.5 40.7 L101.1 38.3 L103.9 39.5 L108.2 37.0 L112.4 34.9 L118.7 25.1 L122.2 29.5 L126.8 28.6 L131.1 22.2 L136.4 26.9 L140.1 23.1 L144.1 29.7 L150.0 26.1 L153.6 27.0 L156.4 32.1 L159.7 31.2 L164.2 29.2 L170.0 28.5 L175.4 27.3 L179.8 26.5 L183.5 30.0 L189.6 23.4 L196.1 20.9 L200.4 24.3 L205.8 19.6 L212.7 22.0 L216.4 27.2 L220.4 26.4 L223.2 26.9 L228.3 31.4 L233.5 35.8 L238.1 42.4 L242.7 42.4 L249.1 41.9 L252.3 47.0 L258.5 42.5 L261.9 45.1 L268.6 39.7 L275.4 41.9 L280.6 37.5 L283.6 34.5 L290.4 35.3 L296.1 36.1 L302.3 39.9 L306.1 38.4 L311.8 39.7 L315.4 43.9 L321.7 45.5 L325.5 47.6 L328.9 41.5 L332.6 43.4 L335.4 40.6 L339.5 41.2 L342.6 38.1 L349.1 37.7 L354.6 32.0 L359.7 25.2 L362.4 23.0 L369.0 24.7 L375.8 19.3 L381.2 22.7 L386.9 23.0 L393.9 23.9 L398.9 30.0 L400.0 34.0 L400 70Z' fill='%23F3EADA'/%3E%3Cpath d='M0.0 41.7 L5.0 46.1 L9.6 43.9 L14.8 41.6 L19.6 43.6 L25.6 38.6 L29.5 37.5 L35.6 40.1 L38.3 41.7 L45.2 39.7 L50.4 37.5 L53.0 40.6 L55.8 39.4 L59.4 39.8 L64.0 44.3 L70.2 47.3 L75.6 48.7 L81.1 48.9 L84.9 52.1 L91.8 49.1 L97.5 42.9 L101.1 40.5 L103.9 41.7 L108.2 39.2 L112.4 37.1 L118.7 27.3 L122.2 31.7 L126.8 30.8 L131.1 24.4 L136.4 29.1 L140.1 25.3 L144.1 31.9 L150.0 28.3 L153.6 29.2 L156.4 34.3 L159.7 33.4 L164.2 31.4 L170.0 30.7 L175.4 29.5 L179.8 28.7 L183.5 32.2 L189.6 25.6 L196.1 23.1 L200.4 26.5 L205.8 21.8 L212.7 24.2 L216.4 29.4 L220.4 28.6 L223.2 29.1 L228.3 33.6 L233.5 38.0 L238.1 44.6 L242.7 44.6 L249.1 44.1 L252.3 49.2 L258.5 44.7 L261.9 47.3 L268.6 41.9 L275.4 44.1 L280.6 39.7 L283.6 36.7 L290.4 37.5 L296.1 38.3 L302.3 42.1 L306.1 40.6 L311.8 41.9 L315.4 46.1 L321.7 47.7 L325.5 49.8 L328.9 43.7 L332.6 45.6 L335.4 42.8 L339.5 43.4 L342.6 40.3 L349.1 39.9 L354.6 34.2 L359.7 27.4 L362.4 25.2 L369.0 26.9 L375.8 21.5 L381.2 24.9 L386.9 25.2 L393.9 26.1 L398.9 32.2 L400.0 36.2' fill='none' stroke='%23E4D6BC' stroke-width='1.2'/%3E%3C/svg%3E") bottom/100% 100% no-repeat}
+:root[data-theme="light"] .hero .portrait .ph{box-shadow:0 0 0 2px var(--gold),0 0 0 8px var(--gap),0 0 0 9px var(--gold-lo),0 26px 50px rgba(0,0,0,.35)}
+:root[data-theme="light"] .hero .fl{filter:none}
+:root[data-theme="light"] .hero .eyebrow{color:#E2C27C}
+:root[data-theme="light"] .hero .eyebrow::before,:root[data-theme="light"] .hero .eyebrow::after{opacity:.9}
+:root[data-theme="light"] #theme{z-index:56}
+
 @media (min-width:900px){.sec{padding-block:72px}}
 @media (max-width:700px){.blob{animation:none}}
 @media (prefers-reduced-motion:reduce){
@@ -418,21 +486,11 @@ html.lite .who.go .l{animation-duration:.5s}
 <canvas id="dust" aria-hidden="true"></canvas>
 <div class="flash" id="flash" aria-hidden="true"></div>
 
-<!-- Gate -->
-<div id="gate" role="dialog" aria-label="Шақыру">
-  <div class="lattice"></div>
-  <div class="frame"><svg class="corner tl"><use href="#corner"/></svg><svg class="corner tr"><use href="#corner"/></svg><svg class="corner bl"><use href="#corner"/></svg><svg class="corner br"><use href="#corner"/></svg></div>
-  <div class="gate-in">
-    <p class="eyebrow">Мерей той</p>
-    <div class="medal"><svg class="shan" viewBox="0 0 400 400" aria-hidden="true" id="shan"></svg><svg class="ring" viewBox="0 0 230 230" data-ring="16" aria-hidden="true"></svg><div class="core"><span class="foil">70</span></div></div>
-    <p class="gate-to" id="gateTo">Құрметті қонақ, сізді тойға шақырамыз</p>
-    <button class="btn" id="openBtn" type="button">Шақыруды ашу</button>
-  </div>
-</div>
-
 <main>
   <!-- Hero -->
   <section class="sec hero">
+    <img class="fl fl-h1" src="peony.webp" alt="" aria-hidden="true" width="780" height="780" decoding="async">
+    <img class="fl fl-h2" src="sprig.webp" alt="" aria-hidden="true" width="540" height="510" decoding="async">
     <div class="col">
       <p class="eyebrow rv">МЕРЕЙ ТОЙ</p>
       <div class="seventy foil rv">70</div>
@@ -443,6 +501,7 @@ html.lite .who.go .l{animation-duration:.5s}
         <div class="ph"><img src="father.jpg" alt="Тансыккожин Даулет Байжұмаұлы" width="800" height="800" decoding="async" fetchpriority="high"></div>
       </div>
       <p class="who rv">Тансыккожин Даулет Байжұмаұлы</p>
+      <button class="tune rv" id="tune" type="button" hidden><span class="tl">Әуенді қосу</span> <span class="clef" aria-hidden="true">𝄞</span></button>
     </div>
   </section>
 
@@ -472,11 +531,13 @@ html.lite .who.go .l{animation-duration:.5s}
   <!-- When -->
   <section class="sec">
     <div class="col">
+      <img class="fl fl-w1" src="peony.webp" alt="" aria-hidden="true" width="780" height="780" loading="lazy" decoding="async">
+      <img class="fl fl-w2" src="sprig.webp" alt="" aria-hidden="true" width="540" height="510" loading="lazy" decoding="async">
       <div class="card rv">
         <div class="badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></div>
         <p class="label">Тойдың басталу уақыты:</p>
         <p class="date">09.01.2027 <span class="sep">/</span> <span style="white-space:nowrap">сағат 16:00</span></p>
-        <span class="weekday">сенбі</span>
+        <div class="cal" aria-label="2027 жылғы қаңтар, тойдың күні 9 қаңтар, сенбі"><p class="cal-m">Қаңтар 2027</p><div class="cal-h" aria-hidden="true"><span>ДС</span><span>СС</span><span>СР</span><span>БС</span><span>ЖМ</span><span>СН</span><span>ЖС</span></div><div class="cal-g"><span></span><span></span><span></span><span></span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span class="on" aria-current="date"><svg viewBox="0 0 64 64" aria-hidden="true"><path pathLength="1" d="M33 52 C 20 43, 8 33, 9 22 C 10 13, 19 9, 26 13 C 30 15, 32 19, 32 23 C 33 17, 38 11, 45 11 C 54 11, 58 20, 54 29 C 50 38, 41 45, 31 54 L 24 61"/></svg><b>9</b></span><span>10</span><span>11</span><span>12</span><span>13</span><span>14</span><span>15</span><span>16</span><span>17</span><span>18</span><span>19</span><span>20</span><span>21</span><span>22</span><span>23</span><span>24</span><span>25</span><span>26</span><span>27</span><span>28</span><span>29</span><span>30</span><span>31</span></div></div>
         <div class="row" style="margin-top:6px">
           <a class="btn-line" id="gcal" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M18.316 5.684H24v12.632h-5.684V5.684zM5.684 24h12.632v-5.684H5.684V24zM18.316 5.684V0H1.895A1.894 1.894 0 0 0 0 1.895v16.421h5.684V5.684h12.632zm-7.207 6.25v-.065c.272-.144.5-.349.687-.617s.279-.595.279-.982c0-.379-.099-.72-.3-1.025a2.05 2.05 0 0 0-.832-.714 2.703 2.703 0 0 0-1.197-.257c-.6 0-1.094.156-1.481.467-.386.311-.65.671-.793 1.078l1.085.452c.086-.249.224-.461.413-.633.189-.172.445-.257.767-.257.33 0 .602.088.816.264a.86.86 0 0 1 .322.703c0 .33-.12.589-.36.778-.24.19-.535.284-.886.284h-.567v1.085h.633c.407 0 .748.109 1.02.327.272.218.407.499.407.843 0 .336-.129.614-.387.832s-.565.327-.924.327c-.351 0-.651-.103-.897-.311-.248-.208-.422-.502-.521-.881l-1.096.452c.178.616.505 1.082.977 1.401.472.319.984.478 1.538.477a2.84 2.84 0 0 0 1.293-.291c.382-.193.684-.458.902-.794.218-.336.327-.72.327-1.149 0-.429-.115-.797-.344-1.105a2.067 2.067 0 0 0-.881-.689zm2.093-1.931l.602.913L15 10.045v5.744h1.187V8.446h-.827l-2.158 1.557zM22.105 0h-3.289v5.184H24V1.895A1.894 1.894 0 0 0 22.105 0zm-3.289 23.5l4.684-4.684h-4.684V23.5zM0 22.105C0 23.152.848 24 1.895 24h3.289v-5.184H0v3.289z"/></svg>Google Calendar</a>
           <a class="btn-line" id="ical" download="merei-toi-70.ics"><svg viewBox="0 0 24 24" aria-hidden="true"><path style="fill:var(--cream)" d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg>iPhone күнтізбесі</a>
@@ -530,10 +591,7 @@ html.lite .who.go .l{animation-duration:.5s}
             <label class="opt"><input type="radio" name="answer" id="a2" value="Жұбайыммен бірге барамын"><i class="dot"><svg><use href="#check"/></svg></i><span>Жұбайыммен бірге барамын</span></label>
             <label class="opt"><input type="radio" name="answer" id="a3" value="Өкінішке орай, келе алмаймын"><i class="dot"><svg><use href="#check"/></svg></i><span>Өкінішке орай, келе алмаймын</span></label>
           </fieldset>
-          <div class="field">
-            <label for="f-wish">Тілегіңіз <span class="opt-note">(міндетті емес)</span></label>
-            <textarea id="f-wish" name="wish" placeholder="Мерейтой иесіне ізгі тілегіңізді жазыңыз"></textarea>
-          </div>
+          
           <input class="hp" type="text" id="f-web" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
           <p class="err" id="err" role="alert"></p>
           <button class="btn" id="sendBtn" type="submit">Жауап беру</button>
@@ -546,25 +604,9 @@ html.lite .who.go .l{animation-duration:.5s}
           <div class="row" id="doneCal" hidden>
             <a class="btn-line" id="gcal2" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M18.316 5.684H24v12.632h-5.684V5.684zM5.684 24h12.632v-5.684H5.684V24zM18.316 5.684V0H1.895A1.894 1.894 0 0 0 0 1.895v16.421h5.684V5.684h12.632zm-7.207 6.25v-.065c.272-.144.5-.349.687-.617s.279-.595.279-.982c0-.379-.099-.72-.3-1.025a2.05 2.05 0 0 0-.832-.714 2.703 2.703 0 0 0-1.197-.257c-.6 0-1.094.156-1.481.467-.386.311-.65.671-.793 1.078l1.085.452c.086-.249.224-.461.413-.633.189-.172.445-.257.767-.257.33 0 .602.088.816.264a.86.86 0 0 1 .322.703c0 .33-.12.589-.36.778-.24.19-.535.284-.886.284h-.567v1.085h.633c.407 0 .748.109 1.02.327.272.218.407.499.407.843 0 .336-.129.614-.387.832s-.565.327-.924.327c-.351 0-.651-.103-.897-.311-.248-.208-.422-.502-.521-.881l-1.096.452c.178.616.505 1.082.977 1.401.472.319.984.478 1.538.477a2.84 2.84 0 0 0 1.293-.291c.382-.193.684-.458.902-.794.218-.336.327-.72.327-1.149 0-.429-.115-.797-.344-1.105a2.067 2.067 0 0 0-.881-.689zm2.093-1.931l.602.913L15 10.045v5.744h1.187V8.446h-.827l-2.158 1.557zM22.105 0h-3.289v5.184H24V1.895A1.894 1.894 0 0 0 22.105 0zm-3.289 23.5l4.684-4.684h-4.684V23.5zM0 22.105C0 23.152.848 24 1.895 24h3.289v-5.184H0v3.289z"/></svg>Күнтізбеге қосу</a>
           </div>
-          <div class="row" id="doneWish" hidden>
-            <button class="btn-line" id="doneWishBtn" type="button">Тілек қалдыру</button>
-          </div>
+          
           <button class="link-btn" id="again" type="button">Жауапты өзгерту</button>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Wishes wall -->
-  <section class="sec" id="wishes">
-    <div class="col">
-      <svg class="orn rv" aria-hidden="true"><use href="#oyu"/></svg>
-      <h2 class="wish foil rv">Тойға ізгі тілектер</h2>
-      <div class="wall rv" id="wall" hidden><div class="track" id="track"></div></div>
-      <p class="empty rv" id="wallEmpty">Әзірге тілек жоқ. Алғашқы тілекті сіз қалдырыңыз!</p>
-      <div class="row rv" style="max-width:480px">
-        <button class="btn" id="wishBtn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>Тілек қалдыру</button>
-        <button class="btn-line" id="allBtn" type="button" hidden>Барлық тілектерді оқу</button>
       </div>
     </div>
   </section>
@@ -572,6 +614,8 @@ html.lite .who.go .l{animation-duration:.5s}
   <!-- Closing -->
   <section class="sec">
     <div class="col">
+      <img class="fl fl-c1" src="peony.webp" alt="" aria-hidden="true" width="780" height="780" loading="lazy" decoding="async">
+      <img class="fl fl-c2" src="sprig.webp" alt="" aria-hidden="true" width="540" height="510" loading="lazy" decoding="async">
       <div class="divider rv" aria-hidden="true"><svg><use href="#horn"/></svg></div>
       <p class="closing foil rv">Сіздерді күтеміз!</p>
       <p class="label rv">Той иелері: Балалары</p>
@@ -603,34 +647,8 @@ html.lite .who.go .l{animation-duration:.5s}
   </div>
 </div>
 
-<!-- Wish sheet -->
-<div id="wsheet" class="bsheet" aria-hidden="true">
-  <div class="back" data-wclose></div>
-  <div class="panel" role="dialog" aria-label="Тілектер">
-    <div class="grab"></div>
-    <div id="wWrite">
-      <p class="sheet-t">Тілек қалдыру</p>
-      <form class="wform" id="wform" novalidate>
-        <div class="field"><label for="w-name">Есіміңіз</label><input type="text" id="w-name" autocomplete="name" placeholder="Мысалы: Асан Серікұлы"></div>
-        <div class="field"><label for="w-text">Тілегіңіз</label><textarea id="w-text" maxlength="600" placeholder="Мерейтой иесіне ізгі тілегіңізді жазыңыз"></textarea></div>
-        <p class="err" id="werr" role="alert"></p>
-        <button class="btn" id="wsend" type="submit">Тілекті жіберу</button>
-      </form>
-      <div class="done" id="wdone" hidden>
-        <svg viewBox="0 0 100 100" aria-hidden="true"><circle class="c" cx="50" cy="50" r="46" fill="none" style="stroke:var(--gold)" stroke-width="3"/><path class="k" d="M30 52l14 13 26-30" fill="none" style="stroke:var(--gold-hi)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <p class="t foil" style="font-size:32px">Тілегіңіз жіберілді!</p>
-      </div>
-    </div>
-    <div id="wAll" hidden>
-      <p class="sheet-t">Барлық тілектер</p>
-      <div class="wlist" id="wlist"></div>
-    </div>
-    <button class="close" type="button" data-wclose>Жабу</button>
-  </div>
-</div>
-
 <button id="music" type="button" aria-label="Музыка" hidden><span class="bars"><i></i><i></i><i></i><i></i></span></button>
-<audio id="audio" src="music.mp3" loop preload="none"></audio>
+<audio id="audio" src="music.mp3" loop preload="metadata"></audio>
 
 <script>
 /* ================== НАСТРОЙКИ ================== */
@@ -683,7 +701,6 @@ if (window.matchMedia) { const mq = matchMedia('(prefers-color-scheme: light)');
 const guest = (new URLSearchParams(location.search).get('q') || '').trim().slice(0,60);
 if (guest) {
   $('#greet').textContent = 'Құрметті ' + guest + '!';
-  $('#gateTo').textContent = 'Құрметті ' + guest + ', сізді тойға шақырамыз';
   $('#f-name').value = guest;
 }
 
@@ -692,31 +709,29 @@ document.querySelectorAll('.btn').forEach(b => b.addEventListener('pointermove',
   const r = b.getBoundingClientRect(); b.style.setProperty('--x', (e.clientX - r.left) + 'px'); b.style.setProperty('--y', (e.clientY - r.top) + 'px');
 }));
 
-/* Gate + music */
-const audio = $('#audio'), musicBtn = $('#music');
-audio.addEventListener('canplay', () => { musicBtn.hidden = false; }, { once:true });
-audio.addEventListener('error', () => { musicBtn.hidden = true; });
-function setPlaying(on){ musicBtn.classList.toggle('playing', on); musicBtn.setAttribute('aria-pressed', on ? 'true' : 'false'); }
-musicBtn.addEventListener('click', () => {
-  if (audio.paused) audio.play().then(() => setPlaying(true)).catch(() => {});
+/* Music: shown only when music.mp3 exists; browsers allow sound only after a tap */
+const audio = $('#audio'), musicBtn = $('#music'), tune = $('#tune');
+audio.addEventListener('loadedmetadata', () => { musicBtn.hidden = false; tune.hidden = false; }, { once:true });
+audio.addEventListener('error', () => { musicBtn.hidden = true; tune.hidden = true; });
+function setPlaying(on){
+  musicBtn.classList.toggle('playing', on); musicBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
+  tune.classList.toggle('playing', on); tune.querySelector('.tl').textContent = on ? 'Әуенді өшіру' : 'Әуенді қосу';
+}
+function toggleMusic(){
+  if (audio.paused){ audio.preload = 'auto'; audio.play().then(() => setPlaying(true)).catch(() => {}); }
   else { audio.pause(); setPlaying(false); }
-});
-document.body.classList.add('locked');
-$('#openBtn').addEventListener('click', () => {
-  const gate = $('#gate');
-  $('#flash').classList.add('go');
-  gate.classList.add('open');
-  document.body.classList.remove('locked');
-  audio.preload = 'auto';
-  audio.play().then(() => { musicBtn.hidden = false; setPlaying(true); }).catch(() => {});
-  setTimeout(() => gate.classList.add('gone'), reduce ? 50 : 1400);
-  setTimeout(revealVisible, 250);
-  const ob = $('#openBtn').getBoundingClientRect();
-  setTimeout(() => burstAt(ob.left + ob.width/2, ob.top + ob.height/2, MOBILE ? 80 : 140), 120);
+}
+musicBtn.addEventListener('click', toggleMusic);
+tune.addEventListener('click', toggleMusic);
+
+/* Opening sequence runs straight away (no envelope) */
+function openInvite(){
+  revealVisible();
   if (!reduce) $('.seventy').textContent = '0';
-  setTimeout(countUp, 450);
+  setTimeout(countUp, 300);
   $('.who').classList.add('go');
-});
+  setTimeout(() => { const r = $('.portrait').getBoundingClientRect(); burstAt(r.left + r.width/2, r.top + r.height/2, MOBILE ? 60 : 110); }, 700);
+}
 
 /* Countdown to 09.01.2027 16:00 Almaty (UTC+5) */
 const TARGET = Date.UTC(2027, 0, 9, 11, 0, 0);
@@ -767,8 +782,8 @@ function fillDone(d){
   const nm = d && d.name ? d.name.split(' ')[0] : '';
   const no = d && d.count === 0;
   $('#doneTxt').textContent = no ? 'Жауабыңыз қабылданды' : (nm ? nm + ', сізді күтеміз!' : 'Сізді күтеміз!');
-  $('#doneSub').textContent = no ? 'Мерейтой иесіне ізгі тілегіңізді қалдыра аласыз' : '09.01.2027 · сағат 16:00 · «Millennium» тойханасы';
-  $('#doneCal').hidden = no; $('#doneWish').hidden = !no;
+  $('#doneSub').textContent = no ? 'Рақмет! Жауабыңыз үшін алғыс айтамыз' : '09.01.2027 · сағат 16:00 · «Millennium» тойханасы';
+  $('#doneCal').hidden = no;
 }
 function showDone(d){ fillDone(d); form.hidden = true; done.hidden = false; const r = done.getBoundingClientRect(); burstAt(r.left + r.width/2, r.top + 60, 90); buzz(40); }
 if (store.get('rsvp-sent')) { try { fillDone(JSON.parse(store.get('rsvp-sent'))); } catch(e){} form.hidden = true; done.hidden = false; }
@@ -787,7 +802,6 @@ form.addEventListener('submit', async (e) => {
   try {
     await sendData(payload);
     store.set('rsvp-sent', JSON.stringify(payload)); bumpLive(payload);
-    if (payload.wish) addMyWish(payload.name, payload.wish);
     showDone(payload);
   } catch (x) {
     err.textContent = 'Жіберу мүмкін болмады. Интернетті тексеріп, қайта көріңіз.';
@@ -881,15 +895,8 @@ function allWishes(){
   return out;
 }
 const card = (w) => `<article class="wcard${w.mine ? ' mine' : ''}"><p>${esc(w.text)}</p><b>${esc(w.name || 'Қонақ')}</b></article>`;
-function renderWall(){
-  const ws = allWishes(), wall = $('#wall'), tr = $('#track');
-  $('#wallEmpty').hidden = ws.length > 0; wall.hidden = !ws.length; $('#allBtn').hidden = ws.length < 2;
-  if (!ws.length) return;
-  const show = ws.slice(0, 24);
-  if (show.length < 3 || reduce || show.length * 296 < wall.clientWidth * 1.15) { wall.classList.add('static'); tr.innerHTML = show.map(card).join(''); }
-  else { wall.classList.remove('static'); const html = show.map(card).join(''); tr.innerHTML = html + html; tr.style.setProperty('--dur', (show.length * 7) + 's'); }
-  $('#wlist').innerHTML = ws.map(card).join('');
-}
+function renderWall(){}
+
 function loadRemote(){
   const apply = (wishes, guests) => { remote = wishes.filter(w => w.text).slice(0, 150); renderWall(); if (guests){ liveBase = guests; setLive(guests); } };
   const cb = '__wishes' + Date.now();
@@ -909,40 +916,12 @@ function loadRemote(){
   if (CONFIG.SCRIPT_URL) sc.src = CONFIG.SCRIPT_URL + '?action=wishes&callback=' + cb;
   else if (CONFIG.SHEET_ID) {
     const c = CONFIG.COLS, q = `select ${c.name}, ${c.answer}, ${c.count}, ${c.wish} order by A asc`;
-    sc.src = `https://docs.google.com/spreadsheets/d/${CONFIG.SHEET_ID}/gviz/tq?tqx=out:json;responseHandler:${cb}&tq=${encodeURIComponent(q)}`;
+    sc.src = `https://docs.google.com/spreadsheets/d/${CONFIG.SHEET_ID}/gviz/tq?tqx=out:json;responseHandler:${cb}&headers=1&tq=${encodeURIComponent(q)}`;
   } else return;
   document.head.appendChild(sc);
 }
 renderWall(); loadRemote();
 
-const wsheet = $('#wsheet');
-function openW(mode){
-  $('#wWrite').hidden = mode !== 'write'; $('#wAll').hidden = mode !== 'all';
-  if (mode === 'write'){ $('#wform').hidden = false; $('#wdone').hidden = true; $('#werr').textContent = ''; if (!$('#w-name').value) $('#w-name').value = $('#f-name').value || guest; }
-  wsheet.classList.add('on'); wsheet.setAttribute('aria-hidden','false');
-  setTimeout(() => (mode === 'write' ? ($('#w-name').value ? $('#w-text') : $('#w-name')) : $('#wsheet .close')).focus({preventScroll:true}), 80);
-}
-function closeW(){ wsheet.classList.remove('on'); wsheet.setAttribute('aria-hidden','true'); }
-$('#wishBtn').addEventListener('click', () => openW('write'));
-$('#allBtn').addEventListener('click', () => openW('all'));
-wsheet.querySelectorAll('[data-wclose]').forEach(el => el.addEventListener('click', closeW));
-document.addEventListener('keydown', e => { if (e.key === 'Escape' && wsheet.classList.contains('on')) closeW(); });
-$('#wform').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const name = $('#w-name').value.trim().slice(0,80), text = $('#w-text').value.trim().slice(0,600), btn = $('#wsend');
-  if (!name){ $('#werr').textContent = 'Есіміңізді жазыңыз'; $('#w-name').focus(); return; }
-  if (text.length < 3){ $('#werr').textContent = 'Тілегіңізді жазыңыз'; $('#w-text').focus(); return; }
-  btn.disabled = true; btn.textContent = 'Жіберілуде…';
-  try {
-    await sendData({ name, phone:'', answer:'Тілек', count:0, wish:text, guestLink:guest });
-    addMyWish(name, text); $('#w-text').value = '';
-    $('#wform').hidden = true; $('#wdone').hidden = false; buzz(40);
-    setTimeout(closeW, 1800);
-  } catch(x){ $('#werr').textContent = 'Жіберу мүмкін болмады. Қайта көріңіз.'; }
-  finally { btn.disabled = false; btn.textContent = 'Тілекті жіберу'; }
-});
-
-$('#doneWishBtn').addEventListener('click', () => openW('write'));
 /* Share */
 const SITE = CONFIG.SITE_URL || (location.origin + location.pathname);
 const shareText = 'Тансыккожин Даулет Байжұмаұлының 70 жас мерей тойына шақыру · 09.01.2027, сағат 16:00';
@@ -1010,6 +989,7 @@ function frame(now){
 }
 kick();
 document.addEventListener('visibilitychange', () => { if (!document.hidden) kick(); });
+requestAnimationFrame(openInvite);
 </script>
 
 </body>
