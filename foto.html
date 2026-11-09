@@ -176,7 +176,7 @@ input[type=text]:focus{outline:none;border-color:var(--ink)}
   <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
 </button>
 
-<div class="toast" id="toast" role="status">
+<div class="toast" id="toast" role="status" hidden>
   <span class="ic" aria-hidden="true">💌</span>
   <span><b>Шақыруға жауап беруді ұмытпаңыз 🙏</b><small>Ұйымдастырушыларға сіздің келетініңізді білу маңызды.</small></span>
   <a href="#rsvp" id="toastGo">Жауап беру</a>
@@ -360,7 +360,7 @@ const toast = $('#toast');
 function hideToast(){ toast.classList.remove('on'); }
 $('#toastX').addEventListener('click', () => { hideToast(); store.set('toast-x', '1'); });
 $('#toastGo').addEventListener('click', hideToast);
-if (!store.get('rsvp-sent') && !store.get('toast-x')) setTimeout(() => { if (done.hidden) toast.classList.add('on'); }, 6000);
+/* reminder toast disabled */
 
 /* Reveal on scroll */
 const rvEls = [...document.querySelectorAll('.rv')];
