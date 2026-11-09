@@ -386,7 +386,7 @@ main{overflow-x:clip}
 .fl-w1{width:min(150px,36vw);top:-58px;right:-34px;transform:rotate(14deg)}
 .fl-w2{width:min(130px,32vw);bottom:-96px;left:-34px;transform:rotate(200deg)}
 .fl-c1{width:min(120px,30vw);top:-96px;left:-26px;transform:rotate(-20deg)}
-.fl-c2{width:min(130px,32vw);bottom:-110px;right:-30px;transform:rotate(10deg) scaleX(-1)}
+.fl-c2{width:min(120px,30vw);bottom:-170px;right:-30px;transform:rotate(10deg) scaleX(-1)}
 :root:not([data-theme="light"]) .fl{filter:brightness(.92)}
 
 /* ---------- light theme: deeper colour & contrast ---------- */
@@ -427,6 +427,26 @@ main{overflow-x:clip}
 :root[data-theme="light"] .hero .eyebrow{color:#E2C27C}
 :root[data-theme="light"] .hero .eyebrow::before,:root[data-theme="light"] .hero .eyebrow::after{opacity:.9}
 :root[data-theme="light"] #theme{z-index:56}
+
+
+/* ---------- simple mode: fewer controls, larger type for older guests ---------- */
+#theme,#music,#live,#doneCal{display:none!important}
+body{font-size:17px}
+.eyebrow{font-size:13px;letter-spacing:.3em}
+.label,.hall{font-size:13px;letter-spacing:.18em}
+.field label,fieldset legend{font-size:13px;letter-spacing:.14em}
+.opt-note{font-size:13px}
+input[type=text],input[type=tel],textarea{font-size:19px;padding:17px 18px}
+.opt{padding:19px 18px}
+.opt span{font-size:18px}
+.opt .dot{width:28px;height:28px}
+.addr{font-size:19px;color:var(--cream)}
+.lead{font-size:clamp(23px,6.2vw,28px)}
+.btn{font-size:15px;min-height:62px;letter-spacing:.14em}
+.tile small{font-size:10.5px;letter-spacing:.1em}
+.cal-g{font-size:21px}
+.done .sub{font-size:17px}
+.link-btn{font-size:16px}
 
 @media (min-width:900px){.sec{padding-block:72px}}
 @media (max-width:700px){.blob{animation:none}}
@@ -472,7 +492,7 @@ main{overflow-x:clip}
 (function(){
   var saved = null; try { saved = localStorage.getItem('theme'); } catch(e){}
   var mq = window.matchMedia ? matchMedia('(prefers-color-scheme: light)') : null;
-  var t = saved || (mq && mq.matches ? 'light' : 'dark');
+  var t = 'light'; /* one clear theme for everyone */
   var nav = navigator, small = window.matchMedia && matchMedia('(max-width: 820px)').matches;
   if (small || (nav.hardwareConcurrency && nav.hardwareConcurrency <= 4) || (nav.deviceMemory && nav.deviceMemory <= 4)) document.documentElement.classList.add('lite');
   document.documentElement.setAttribute('data-theme', t);
@@ -538,7 +558,7 @@ main{overflow-x:clip}
         <p class="label">Тойдың басталу уақыты:</p>
         <p class="date">09.01.2027 <span class="sep">/</span> <span style="white-space:nowrap">сағат 16:00</span></p>
         <div class="cal" aria-label="2027 жылғы қаңтар, тойдың күні 9 қаңтар, сенбі"><p class="cal-m">Қаңтар 2027</p><div class="cal-h" aria-hidden="true"><span>ДС</span><span>СС</span><span>СР</span><span>БС</span><span>ЖМ</span><span>СН</span><span>ЖС</span></div><div class="cal-g"><span></span><span></span><span></span><span></span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span class="on" aria-current="date"><svg viewBox="0 0 64 64" aria-hidden="true"><path pathLength="1" d="M33 52 C 20 43, 8 33, 9 22 C 10 13, 19 9, 26 13 C 30 15, 32 19, 32 23 C 33 17, 38 11, 45 11 C 54 11, 58 20, 54 29 C 50 38, 41 45, 31 54 L 24 61"/></svg><b>9</b></span><span>10</span><span>11</span><span>12</span><span>13</span><span>14</span><span>15</span><span>16</span><span>17</span><span>18</span><span>19</span><span>20</span><span>21</span><span>22</span><span>23</span><span>24</span><span>25</span><span>26</span><span>27</span><span>28</span><span>29</span><span>30</span><span>31</span></div></div>
-        <div class="row" style="margin-top:6px">
+        <div class="row" style="margin-top:6px" hidden>
           <a class="btn-line" id="gcal" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M18.316 5.684H24v12.632h-5.684V5.684zM5.684 24h12.632v-5.684H5.684V24zM18.316 5.684V0H1.895A1.894 1.894 0 0 0 0 1.895v16.421h5.684V5.684h12.632zm-7.207 6.25v-.065c.272-.144.5-.349.687-.617s.279-.595.279-.982c0-.379-.099-.72-.3-1.025a2.05 2.05 0 0 0-.832-.714 2.703 2.703 0 0 0-1.197-.257c-.6 0-1.094.156-1.481.467-.386.311-.65.671-.793 1.078l1.085.452c.086-.249.224-.461.413-.633.189-.172.445-.257.767-.257.33 0 .602.088.816.264a.86.86 0 0 1 .322.703c0 .33-.12.589-.36.778-.24.19-.535.284-.886.284h-.567v1.085h.633c.407 0 .748.109 1.02.327.272.218.407.499.407.843 0 .336-.129.614-.387.832s-.565.327-.924.327c-.351 0-.651-.103-.897-.311-.248-.208-.422-.502-.521-.881l-1.096.452c.178.616.505 1.082.977 1.401.472.319.984.478 1.538.477a2.84 2.84 0 0 0 1.293-.291c.382-.193.684-.458.902-.794.218-.336.327-.72.327-1.149 0-.429-.115-.797-.344-1.105a2.067 2.067 0 0 0-.881-.689zm2.093-1.931l.602.913L15 10.045v5.744h1.187V8.446h-.827l-2.158 1.557zM22.105 0h-3.289v5.184H24V1.895A1.894 1.894 0 0 0 22.105 0zm-3.289 23.5l4.684-4.684h-4.684V23.5zM0 22.105C0 23.152.848 24 1.895 24h3.289v-5.184H0v3.289z"/></svg>Google Calendar</a>
           <a class="btn-line" id="ical" download="merei-toi-70.ics"><svg viewBox="0 0 24 24" aria-hidden="true"><path style="fill:var(--cream)" d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg>iPhone күнтізбесі</a>
         </div>
@@ -619,7 +639,7 @@ main{overflow-x:clip}
       <div class="divider rv" aria-hidden="true"><svg><use href="#horn"/></svg></div>
       <p class="closing foil rv">Сіздерді күтеміз!</p>
       <p class="label rv">Той иелері: Балалары</p>
-      <div class="row rv" style="max-width:440px;margin-top:8px">
+      <div class="row" style="max-width:440px;margin-top:8px" hidden>
         <a class="btn-line" id="shareWa" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#25D366" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>WhatsApp</a>
         <a class="btn-line" id="shareTg" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#26A5E4" d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>Telegram</a>
       </div>
@@ -771,7 +791,7 @@ $('#ical').href = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(ics);
 const sheet = $('#sheet');
 function openSheet(){ sheet.classList.add('on'); sheet.setAttribute('aria-hidden','false'); setTimeout(() => sheet.querySelector('.app').focus({preventScroll:true}), 60); }
 function closeSheet(){ sheet.classList.remove('on'); sheet.setAttribute('aria-hidden','true'); $('#mapBtn').focus({preventScroll:true}); }
-$('#mapBtn').addEventListener('click', openSheet);
+$('#mapBtn').addEventListener('click', () => { window.open('https://2gis.kz/almaty/geo/70000001103034478/77.042954,43.308238', '_blank', 'noopener'); });
 sheet.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', closeSheet));
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && sheet.classList.contains('on')) closeSheet(); });
 
