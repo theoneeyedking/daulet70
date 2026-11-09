@@ -1,3 +1,8 @@
 {
-  "cleanUrls": true
+  "cleanUrls": true,
+  "redirects": [
+    { "source": "/foto", "destination": "/", "permanent": false },
+    { "source": "/bez-foto", "destination": "/", "permanent": false },
+    { "source": "/v2", "destination": "/", "permanent": false }
+  ]
 }
