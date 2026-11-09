@@ -248,6 +248,14 @@ input[type=text]:focus{outline:none;border-color:var(--ink)}
     <a class="pill rv" href="https://2gis.kz/almaty/geo/70000001103034478/77.042954,43.308238" target="_blank" rel="noopener">Карта арқылы ашу</a>
   </section>
 
+  <!-- Countdown -->
+  <section class="band rv">
+    <h3>Тойға дейін</h3>
+    <div class="cd" id="cd" aria-live="polite">
+      <div class="dd"><b id="cd-d">00</b><small>күн қалды</small></div>
+    </div>
+  </section>
+
   <!-- RSVP -->
   <section class="blk" id="rsvp">
     <h2 class="script rv">Сауалнама:</h2>
@@ -315,7 +323,7 @@ function tick(){
   $('#cd-d').textContent = String(D);
   return true;
 }
-/* countdown removed by request */
+if (tick()) { const iv = setInterval(() => { if (!tick()) clearInterval(iv); }, 60000); }
 
 /* Music */
 const audio = $('#audio'), dm = $('#dockMusic');
