@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Мерей той · Даулет 70 (2-нұсқа)</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="Тансыккожин Даулет Байжұмаұлының 70 жас мерей тойына шақыру · 09.01.2027, сағат 16:00, «Millennium» тойханасы">
+<meta name="description" content="Таңсыққожин Дәулет Байжұмаұлының 70 жас мерей тойына шақыру · 09.01.2027, сағат 16:00, «Millennium» тойханасы">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Мерей той · 70 жас">
-<meta property="og:description" content="Тансыккожин Даулет Байжұмаұлының 70 жас мерей тойына шақырамыз · 09.01.2027, сағат 16:00">
+<meta property="og:description" content="Таңсыққожин Дәулет Байжұмаұлының 70 жас мерей тойына шақырамыз · 09.01.2027, сағат 16:00">
 <meta property="og:image" content="https://daulet70.vercel.app/og.jpg">
 <meta property="og:url" content="https://daulet70.vercel.app/">
 <meta name="theme-color" content="#070A14">
@@ -430,7 +430,7 @@ main{overflow-x:clip}
 
 
 /* ---------- simple mode: fewer controls, larger type for older guests ---------- */
-#music,#live,#doneCal{display:none!important}
+#live,#doneCal{display:none!important}
 body{font-size:17px}
 .eyebrow{font-size:13px;letter-spacing:.3em}
 .label,.hall{font-size:13px;letter-spacing:.18em}
@@ -570,9 +570,9 @@ h2{font-style:italic;color:var(--gold-hi)!important}
       <div class="portrait rv">
         <div class="halo"></div>
         <svg class="ring" viewBox="0 0 330 330" data-ring="20" aria-hidden="true"></svg>
-        <div class="ph"><img src="father.jpg" alt="Тансыккожин Даулет Байжұмаұлы" width="800" height="800" decoding="async" fetchpriority="high"></div>
+        <div class="ph"><img src="father.jpg" alt="Таңсыққожин Дәулет Байжұмаұлы" width="800" height="800" decoding="async" fetchpriority="high"></div>
       </div>
-      <p class="who rv">Тансыккожин Даулет Байжұмаұлы</p>
+      <p class="who rv">Таңсыққожин Дәулет Байжұмаұлы</p>
       <button class="tune rv" id="tune" type="button" hidden><span class="tl">Әуенді қосу</span> <span class="clef" aria-hidden="true">𝄞</span></button>
     </div>
   </section>
@@ -798,6 +798,14 @@ function toggleMusic(){
   else { audio.pause(); setPlaying(false); }
 }
 musicBtn.addEventListener('click', toggleMusic);
+let firstDone = false;
+function firstTap(e){
+  if (firstDone) return; firstDone = true;
+  ['click','touchend','keydown'].forEach(t => document.removeEventListener(t, firstTap, true));
+  if (e.target.closest && e.target.closest('#music,#tune,#dockMusic')) return;
+  if (audio.paused){ audio.preload = 'auto'; audio.play().then(() => setPlaying(true)).catch(() => {}); }
+}
+['click','touchend','keydown'].forEach(t => document.addEventListener(t, firstTap, true));
 tune.addEventListener('click', toggleMusic);
 
 /* Opening sequence runs straight away (no envelope) */
@@ -832,7 +840,7 @@ if (tickCountdown()) { const iv = setInterval(() => { if(!tickCountdown()) clear
 const EV = {
   title: 'Мерей той · Даулет Байжұмаұлы 70 жас',
   place: 'Алматы қаласы, Атагельды Исмаилова көшесі, 22Б, «Millennium» тойханасы, Lovers hall залы',
-  details: 'Тансыккожин Даулет Байжұмаұлының 70 жас мерей тойы. Карта: https://2gis.kz/almaty/geo/70000001103034478/77.042954,43.308238',
+  details: 'Таңсыққожин Дәулет Байжұмаұлының 70 жас мерей тойы. Карта: https://2gis.kz/almaty/geo/70000001103034478/77.042954,43.308238',
   start: '20270109T110000Z', end: '20270109T170000Z'
 };
 const GCAL_URL = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent(EV.title) +
@@ -1000,7 +1008,7 @@ renderWall(); loadRemote();
 
 /* Share */
 const SITE = CONFIG.SITE_URL || (location.origin + location.pathname);
-const shareText = 'Тансыккожин Даулет Байжұмаұлының 70 жас мерей тойына шақыру · 09.01.2027, сағат 16:00';
+const shareText = 'Таңсыққожин Дәулет Байжұмаұлының 70 жас мерей тойына шақыру · 09.01.2027, сағат 16:00';
 $('#shareWa').href = 'https://wa.me/?text=' + encodeURIComponent(shareText + '\n' + SITE);
 $('#shareTg').href = 'https://t.me/share/url?url=' + encodeURIComponent(SITE) + '&text=' + encodeURIComponent(shareText);
 

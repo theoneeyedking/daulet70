@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Мерейтойға шақыру · Дәулет 70</title>
-<meta name="description" content="Тансыккожин Даулет Байжұмаұлының 70 жас мерей тойына шақыру · 09.01.2027, сағат 16:00, «Millennium» тойханасы">
+<meta name="description" content="Таңсыққожин Дәулет Байжұмаұлының 70 жас мерей тойына шақыру · 09.01.2027, сағат 16:00, «Millennium» тойханасы">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Мерейтойға шақыру · 70 жас">
 <meta property="og:description" content="Сіз(дер)ді асқар тау әкеміз Дәулеттің 70 жас мерей тойына шақырамыз · 09.01.2027, сағат 16:00">
@@ -150,6 +150,14 @@ input[type=text]:focus{outline:none;border-color:var(--ink)}
 #theme{position:fixed;z-index:46;top:calc(12px + env(safe-area-inset-top,0px));right:calc(12px + env(safe-area-inset-right,0px));width:46px;height:46px;border-radius:50%;cursor:pointer;
   display:grid;place-items:center;color:var(--ink);background:var(--card);border:1px solid var(--line);box-shadow:0 6px 18px rgba(60,40,10,.15)}
 #theme svg{width:21px;height:21px}
+#snd{position:fixed;z-index:46;top:calc(12px + env(safe-area-inset-top,0px));left:calc(12px + env(safe-area-inset-left,0px));width:46px;height:46px;border-radius:50%;cursor:pointer;
+  display:grid;place-items:center;color:var(--ink);background:var(--card);border:1px solid var(--line);box-shadow:0 6px 18px rgba(60,40,10,.15)}
+#snd svg{width:22px;height:22px}
+#snd .on{display:none}
+#snd.playing .on{display:block}
+#snd.playing .off{display:none}
+#snd.playing{animation:pulseS 2s ease-in-out infinite}
+@keyframes pulseS{0%,100%{box-shadow:0 6px 18px rgba(60,40,10,.15),0 0 0 0 rgba(181,152,77,.4)}50%{box-shadow:0 6px 18px rgba(60,40,10,.15),0 0 0 8px rgba(181,152,77,0)}}
 #theme .moon{display:none}
 :root[data-theme="dark"] #theme .sun{display:none}
 :root[data-theme="dark"] #theme .moon{display:block}
@@ -171,6 +179,10 @@ input[type=text]:focus{outline:none;border-color:var(--ink)}
 })();
 </script>
 
+<button id="snd" type="button" aria-label="Әуенді қосу/өшіру" hidden>
+  <svg class="on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg>
+  <svg class="off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/><path d="M16 9.5l5 5M21 9.5l-5 5"/></svg>
+</button>
 <button id="theme" type="button" aria-label="Тақырыпты ауыстыру">
   <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6"/></svg>
   <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
@@ -193,7 +205,7 @@ input[type=text]:focus{outline:none;border-color:var(--ink)}
   <section class="blk top">
     <h1 class="script rv">Мерейтойға шақыру</h1>
     <div class="medal rv"><img class="frame" src="medallion.webp" alt="" aria-hidden="true" width="960" height="960"><div class="in"><span class="n70">70</span><span class="jas">жас</span></div></div>
-    <p class="who rv">Тансыккожин Даулет<br>Байжұмаұлы</p>
+    <p class="who rv">Таңсыққожин Дәулет<br>Байжұмаұлы</p>
     <a class="up rv" href="#greet"><svg viewBox="0 0 34 40" aria-hidden="true"><defs><linearGradient id="ga" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F3D58A"/><stop offset=".55" stop-color="#C08E36"/><stop offset="1" stop-color="#8A5C17"/></linearGradient></defs><path d="M17 2 L32 20 L22 20 L22 38 L12 38 L12 20 L2 20 Z" fill="url(#ga)"/></svg>Жоғары көтеріңіз</a>
   </section>
 
@@ -314,12 +326,29 @@ if (tick()) { const iv = setInterval(() => { if (!tick()) clearInterval(iv); }, 
 
 /* Music */
 const audio = $('#audio'), dm = $('#dockMusic');
-audio.addEventListener('loadedmetadata', () => { dm.hidden = false; }, { once:true });
-audio.addEventListener('error', () => { dm.hidden = true; });
+const snd = $('#snd');
+audio.addEventListener('loadedmetadata', () => { dm.hidden = false; snd.hidden = false; }, { once:true });
+audio.addEventListener('error', () => { dm.hidden = true; snd.hidden = true; });
 const syncM = () => { dm.querySelector('.dl').textContent = audio.paused ? 'Әуенді қосу' : 'Әуенді өшіру';
   dm.querySelector('.ic').innerHTML = audio.paused ? '<svg viewBox="0 0 12 12"><path d="M3 1.5v9l7-4.5z" fill="currentColor"/></svg>' : '<svg viewBox="0 0 12 12"><path d="M2.5 1.5h2.5v9H2.5zM7 1.5h2.5v9H7z" fill="currentColor"/></svg>'; };
-audio.addEventListener('play', syncM); audio.addEventListener('pause', syncM);
-dm.addEventListener('click', () => { if (audio.paused){ audio.preload = 'auto'; audio.play().catch(() => {}); } else audio.pause(); });
+const syncS = () => { snd.classList.toggle('playing', !audio.paused); snd.setAttribute('aria-pressed', audio.paused ? 'false' : 'true'); };
+audio.addEventListener('play', () => { syncM(); syncS(); }); audio.addEventListener('pause', () => { syncM(); syncS(); });
+function playM(){ audio.preload = 'auto'; audio.play().catch(() => {}); }
+function toggleM(){ if (audio.paused) playM(); else audio.pause(); }
+snd.addEventListener('click', toggleM);
+/* browsers only allow sound after a tap: start the song on the guest's first tap anywhere (not on the sound/theme buttons) */
+let firstDone = false;
+function firstTap(e){
+  if (firstDone) return; firstDone = true;
+  ['click','touchend','keydown'].forEach(t => document.removeEventListener(t, firstTap, true));
+  if (e.target.closest && e.target.closest('#snd,#dockMusic')) return;
+  if (store.get('music-off')) return;
+  playM();
+}
+['click','touchend','keydown'].forEach(t => document.addEventListener(t, firstTap, true));
+audio.addEventListener('pause', () => { if (firstDone && !audio.ended) store.set('music-off', '1'); });
+audio.addEventListener('play', () => store.del('music-off'));
+dm.addEventListener('click', toggleM);
 
 /* RSVP → Google Form */
 const COUNT = { 'Иә, жалғыз өзім барамын':1, 'Жұбайыммен бірге барамын':2, 'Өкінішке орай, келе алмаймын':0 };
